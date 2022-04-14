@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE  html>
+<html data-theme="luxury" lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -21,20 +21,59 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>DWT Reporter</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <script>
+      if ('serviceWorker' in navigator) {
+        //if the browser supports serviceWorkers
+        window.addEventListener('load', function () {
+          navigator.serviceWorker
+          //registers the worker.js file you just made
+            .register('worker.js')
+            .then(
+              function (registration) {
+                console.log(
+                  'Worker registration successful',
+                  registration.scope
+                );
+              },
+              function (err) {
+                console.log('Worker registration failed', err);
+              }
+            )
+            .catch(function (err) {
+              console.log(err);
+            });
+        });
+      } else {
+        console.log('Service Worker is not supported by browser.');
+      }
+    </script>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <script>
+      // Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBmGGOD3WXa5Cbax_LnQuW9aE-8b3fuFhk",
+  authDomain: "dwtproject-75c16.firebaseapp.com",
+  projectId: "dwtproject-75c16",
+  storageBucket: "dwtproject-75c16.appspot.com",
+  messagingSenderId: "738553500575",
+  appId: "1:738553500575:web:5818717f58c32a8e7e23aa",
+  measurementId: "G-23PZJGCDK2"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+    </script>
 </html>
