@@ -9,6 +9,7 @@ import {Footer} from "./Components/Layout/Footer"
      import { initializeApp } from "firebase/app";
      import { getAnalytics } from "firebase/analytics";
 import { ReportProvider } from './Context/Report/ReportContext';
+import { CreateReportPage } from './Routes/CreateReportPage';
      
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/createreport" element={<CreateReportPage />} />
            <Route path="/notfound" element={<NotFoundPage />} />
         <Route path="/*" element={<NotFoundPage />} />
 

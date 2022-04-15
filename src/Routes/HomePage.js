@@ -1,4 +1,4 @@
-import { React, useContext, useEffect } from 'react';
+import { React, useContext, useEffect, useState } from 'react';
 import ReportContext from '../Context/Report/ReportContext';
 import { AddReport, CreateReportsCollection, GetReports } from '../Context/Report/ReportActions';
 import { Spinner } from '../Components/Layout/Spinner';
@@ -14,7 +14,7 @@ import { Spinner } from '../Components/Layout/Spinner';
 export const HomePage = () => {
 
   const { reports, report, loading, reportDispatch } = useContext(ReportContext);
-
+  const [position, setPosition] = useState({});
   //   const handleSubmit = (e) => {
   //     e.preventDefault();
   //     AddReport(report);
@@ -25,21 +25,21 @@ export const HomePage = () => {
   //     console.log(report.Title);
   // }
 
+
+
   useEffect(() => {
 
-
+   
     const reports = GetReports();
 
-    //if user has reports in local storag.
+    //if user has reports in local storage update component state.
     if (reports !== null && reports.length > 0) {
       reportDispatch({ type: 'SET_LOADING' });
       reportDispatch({ type: 'GET_REPORTS', payload: reports });
     } else {
       //set empty array in local storage
       CreateReportsCollection();
-
     }
-
 
   }, [reportDispatch]);
 
@@ -73,23 +73,34 @@ export const HomePage = () => {
         <div></div>
 
         <div>
-          <h1 className='text-3xl'>Homepage</h1>
+          <h1 className='text-3xl mb-3'>Homepage</h1>
           {/* <button id="get-access" onClick={() => { Camera() }} className="btn">Camera</button> */}
           {/* <video autoPlay id='local-video'/> */}
-          {/* <form onSubmit={(e)=>{handleSubmit(e)}}>
-          <input onChange={(e)=>{handleTitleChange(e)}} type="text" placeholder="Type here" class="input input-bordered input-primary w-full max-w-xs"/>
-          <button className="btn btn-primary">Primary</button>
-          </form> */}
+         
+
+          {/* If there are reports display them else display a message. */}
+
           {
-            reports.length > 0 ? reports.map((report) => (<h1 key={report.id}>{report.title} + {report.description}</h1>))
-            : <h1>No reports</h1>
+            reports.length > 0 ? reports.map((report) => (
+            <div key={report.id}>
+              <h1>Title: {report.title} </h1>
+              <h1>Description: {report.description}</h1>
+              <h1>Latitude: {report.latitude}</h1>
+              <h1>Longitude: {report.longitude} </h1>
+              <h1>Accuracy: {report.accuracy}</h1>
+         
+              </div>))
+              : <h1>No reports</h1>
           }
+
+
 
           {/* <button className="btn btn-secondary">Secondary</button>
     <button className="btn btn-accent">Accent</button> */}
 
         </div>
-        <div></div>
+        <div>
+        </div>
 
       </div>
 
@@ -100,3 +111,5 @@ export const HomePage = () => {
   }
 
 }
+
+

@@ -3,7 +3,9 @@
 export const AddReport = async (report) => {
 
     try {
-        localStorage.setItem('reports', JSON.stringify(report));
+        const reports = GetReports();
+        reports.push(report);
+        localStorage.setItem('reports', JSON.stringify(reports));
 
     } catch (e) {
         console.log("ERROR" + e);

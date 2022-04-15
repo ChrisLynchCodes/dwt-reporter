@@ -49,8 +49,8 @@ export const Navbar = ({ title }) => {
               <Link to='/' className='btn btn-ghost btn-sm rounded-btn'>
                 Home
               </Link>
-              <Link to='/products' className='btn btn-ghost btn-sm rounded-btn'>
-               Reports
+              <Link to='/createreport' className='btn btn-ghost btn-sm rounded-btn'>
+               Create Report
               </Link>
               {/* <div className="dropdown">
                                 <div tabIndex="0" className="btn btn-ghost btn-sm rounded-btn">Categories</div>
