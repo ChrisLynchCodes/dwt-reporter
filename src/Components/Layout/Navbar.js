@@ -118,8 +118,8 @@ export const Navbar = ({ title }) => {
           <li className="active"> <Link to='/' onClick={(() => { handleLinkClick() })} className='btn btn-ghost btn-sm rounded-btn'>
             Home
           </Link></li>
-          <li className="active"> <Link onClick={(() => { handleLinkClick() })} to='/products' className='btn btn-ghost btn-sm rounded-btn'>
-            Products
+          <li className="active"> <Link onClick={(() => { handleLinkClick() })} to='/createreport' className='btn btn-ghost btn-sm rounded-btn'>
+            Create Report
           </Link></li>
 
 
