@@ -1,6 +1,6 @@
 import { useEffect, useContext, useState } from "react";
 import { Link } from 'react-router-dom'
-
+import logo from '../../Images/dwtlogonav.png'
 
 
 
@@ -38,44 +38,26 @@ export const Navbar = ({ title }) => {
               {/* <!-- Website Logo --> */}
               <Link to='/'>
                 {/* <GiCampingTent className='inline pr-2 text-6xl' /> */}
-                <h1 className="pt-2">DWT Reporter</h1>
+                <img  className="mask mask-square w-24" src={logo} alt="report" />
+               
+               
                 {/* {title} */}
 
               </Link>
-
+            
             </div>
             {/* <!-- Primary Navbar items --> */}
             <div className="hidden md:flex items-center space-x-1">
-              <Link to='/' className='btn btn-ghost btn-sm rounded-btn'>
+              {/* <Link to='/' className='btn btn-ghost btn-sm rounded-btn'>
                 Home
               </Link>
               <Link to='/createreport' className='btn btn-ghost btn-sm rounded-btn'>
                Create Report
               </Link>
-              {/* <div className="dropdown">
-                                <div tabIndex="0" className="btn btn-ghost btn-sm rounded-btn">Categories</div>
-                                <ul tabIndex="0" className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
-
-                                    {
-                                        categories.map((category) =>
-                                        (
-
-
-                                            <li className='hover-bordered' key={category.id}>
-
-                                                <Link to='/categories' state={{ id: category.id, categoryName: category.categoryName }}>
-                                                    {category.categoryName}
-                                                </Link>
-                                            </li>
-
-                                        ))
-                                    }
-
-                                </ul>
-                            </div> */}
+             
               <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
-                My Account
-              </Link>
+                My Reports
+              </Link> */}
             </div>
           </div>
 
@@ -83,9 +65,22 @@ export const Navbar = ({ title }) => {
           {/* <!-- Secondary Navbar items --> */}
 
           <div className="hidden md:flex items-center space-x-3 ">
-
-
-
+          <Link to='/' className='btn btn-ghost btn-sm rounded-btn'>
+                Home
+              </Link>
+              <Link to='/createreport' className='btn btn-ghost btn-sm rounded-btn'>
+               Create Report
+              </Link>
+             
+              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+                My Reports
+              </Link>
+              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+                About
+              </Link>
+              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+                FAQ
+              </Link>
           </div>
 
 
@@ -123,43 +118,20 @@ export const Navbar = ({ title }) => {
           </Link></li>
 
 
-          {/* <div className="dropdown">
-        <div tabIndex="0" className="btn btn-ghost btn-sm rounded-btn">Categories</div>
-        <ul tabIndex="0" className="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">
 
-          {
-            categories.map((category) =>
-            (
-
-
-              <li className='hover-bordered' key={category.id}>
-
-                <Link onClick={(() => { handleLinkClick() })} to='/categories' state={{ id: category.id, categoryName: category.categoryName }}>
-                  {category.categoryName}
-                </Link>
-              </li>
-
-            ))
-          }
-
-        </ul>
-      </div> */}
-
-
-
-          <li className="active"> <Link onClick={(() => { handleLinkClick() })} to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
-            Popular
+          <li className="active"> <Link onClick={(() => { handleLinkClick() })} to='/userreports' className='btn btn-ghost btn-sm rounded-btn'>
+            My Reports
           </Link></li>
           <li className="active">
 
             <Link onClick={(() => { handleLinkClick() })} to='/admindashboard' className='btn btn-ghost btn-sm rounded-btn'>
-              dashboard
+              About
             </Link>
 
           </li>
           <li className="active">
             <Link onClick={(() => { handleLinkClick() })} to='/logout' className='btn btn-ghost btn-sm rounded-btn'>
-              Log out
+              FAQ
             </Link>
 
           </li>

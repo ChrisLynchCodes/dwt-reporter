@@ -1,97 +1,159 @@
-import { React, useState, useEffect } from 'react'
-import { AddReport } from '../Context/Report/ReportActions';
-import { GeoLocation } from '../Components/Location/GeoLocation';
-
-
+import { React, useContext, useEffect, useState } from 'react';
+import ReportContext from '../Context/Report/ReportContext';
+import { AddReport, CreateReportsCollection, GetReports, } from '../Context/Report/ReportActions';
+import { DeviceStorageAccess } from '../Components/FileSystem/DeviceStorageAccess';
+import { getCurrentLocation } from '../Components/Location/LocationLogic';
+import { Link, useNavigate } from 'react-router-dom';
+import moment from 'moment'
+import { Camera2 } from '../Components/Camera/Camera2';
+import Webcam from "react-webcam";
+import { WebcamCapturePage } from './WebcamCapturePage';
+import { addImage } from '../Context/db';
+import ImageContext from '../Context/Image/ImageContext';
+import { LastInsertedReportId, EditReportImageId } from '../Context/Report/ReportActions';
 
 export const CreateReportPage = () => {
-
-  const [position, setPosition] = useState({ "latitude": "", "longitude": "", "accuracy": "", "altitude": "", "altitudeAccuracy": "", "heading": "", "speed": "" });
+  const { report, reportDispatch } = useContext(ReportContext);
+  const { image, imageDispatch } = useContext(ImageContext);
+  //  const [position, setPosition] = useState({ "latitude": "", "longitude": "", "accuracy": "", "altitude": "", "altitudeAccuracy": "", "heading": "", "speed": "" });
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
+  let navigate = useNavigate();
 
-  //   // =========GEOLOCATION=======
+  //ensure user has reports collection in local storage
+  useEffect(() => {
 
-  //   //Success
-  //   const success = (position) => {
-  //     setPosition(position.coords);
-  //   }
+    imageDispatch({ type: 'GET_IMAGE', payload: "" });
+    const reports = GetReports();
 
-  //   //Error
-  //   const error = (error) => { alert(`ERROR(${error.code}): ${error.message}`); }
+    //if user has reports in local storage update component state.
+    if (reports !== null && reports.length > 0) {
+      reportDispatch({ type: 'SET_LOADING' });
+      reportDispatch({ type: 'GET_REPORTS', payload: reports });
+    } else {
+      //set empty array in local storage
+      CreateReportsCollection();
+    }
 
-  // // //Options
-  // //   const options = {
-  // //     enableHighAccuracy: true,
-  // //     maximumAge: 30000,
-  // //     timeout: 27000
-  // //   }
+  }, [reportDispatch, imageDispatch]);
 
-  //   //useEffect
-  //   useEffect(() => {
 
-  //     const watchID = navigator.geolocation.watchPosition(success, error);
 
-  //   }, [])
 
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    //TODO ensure title and description are not empty
     const report = {
       "title": title,
       "description": description,
-      "latitude": position.latitude,
-      "longitude": position.longitude,
-      "accuracy": position.accuracy
+      "timestamp": moment().format(),
+      "latitude": "",
+      "longitude": "",
+      "accuracy": "",
+      "altitude": "",
+      "altitudeAccuracy": "",
+      "heading": "",
+      "speed": "",
+      "imageId": "",
     }
 
+    //add report to local storage - before location call back function is called below
     AddReport(report)
+
+    //fets the current location and update the reports in the app state after successful location call back
+    getCurrentLocation(function (reports) {
+      
+      reportDispatch({ type: 'GET_REPORTS', payload: reports });
+    });
+    //navigate to report page
+
+    navigate("/userreports", { replace: true })
+
+    // if (image !== '') {
+    //   addImage(image, function (imageId) {
+
+    //     //get last inserted report id
+    //     const lastInsertId = LastInsertedReportId();
+
+    //     console.log(lastInsertId)
+
+    //     // edit report imageId
+    //     EditReportImageId(lastInsertId, imageId);
+
+
+    //   });
+    // }
+
+
+
   }
 
 
   return (
-    <div className='grid grid-cols-3 gap-8 mb-8'>
-      <div>
+    <>
 
-      </div>
+      <div className='grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-8'>
+        <div>
 
-      <div>
-        <h1 className='text-3xl mb-3'>Create Report</h1>
+        </div>
 
-        <form onSubmit={(e) => { handleSubmit(e) }}>
+        <div>
 
-
-          <div class="form-control w-full max-w-xs">
-            <label class="label">
-              <span class="label-text">Title</span>
-            </label>
-            <input onChange={(e) => { setTitle(e.target.value) }} type="text" placeholder="Title" className="input input-bordered input-primary w-full max-w-xs" />
-          </div>
-
-          <div class="form-control w-full max-w-xs">
-            <label class="label">
-              <span class="label-text">Description</span>
-            </label>
-            <input onChange={(e) => { setDescription(e.target.value) }} type="text" placeholder="Description" className="input input-bordered input-primary w-full max-w-xs" />
-          </div>
+          <h1 className='text-3xl mb-3'>Create Report</h1>
+          {image !== "" ? <div class="avatar">
+            <div class="w-24 rounded">
+              <img src={image} alt='report' />
+            </div>
+          </div> : null}
+          <form onSubmit={(e) => { handleSubmit(e); }}>
 
 
-          <button className="btn btn-primary mt-3">Submit</button>
-        </form>
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Title</span>
+              </label>
+              <input onChange={(e) => { setTitle(e.target.value); }} type="text" placeholder="Title" className="input input-bordered input-primary w-full max-w-xs" />
+            </div>
+
+            <div class="form-control w-full max-w-xs">
+              <label class="label">
+                <span class="label-text">Description</span>
+              </label>
+              <input onChange={(e) => { setDescription(e.target.value); }} type="text" placeholder="Description" className="input input-bordered input-primary w-full max-w-xs" />
+            </div>
+
+
+            <div>
+              <button type='submit' className="btn btn-primary mt-3 mr-5">Submit</button>
+              <label for="my-modal" class="btn modal-button">Capture Image</label>
+
+
+              <input type="checkbox" id="my-modal" class="modal-toggle" />
+              <div class="modal">
+                <div class="modal-box">
+                  <WebcamCapturePage />
+                  <label for="my-modal" class="btn">Finish</label>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+          {/* <DeviceStorageAccess /> */}
+        </div>
+
+
+
+
         <br /> <br /> <br /> <br />
-        <GeoLocation />
 
-        <br /> <br /> <br /> <br />
-        {/* <h1>Lat: {position.latitude}</h1>
-        <h1>Long: {position.longitude}</h1>
-        <h1>Accu: {position.accuracy}</h1> */}
-      </div>
-      <div>
+
+
 
       </div>
-
-
-    </div>
-
+    </>
   )
 }

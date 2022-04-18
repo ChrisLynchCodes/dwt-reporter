@@ -10,7 +10,11 @@ import {Footer} from "./Components/Layout/Footer"
      import { getAnalytics } from "firebase/analytics";
 import { ReportProvider } from './Context/Report/ReportContext';
 import { CreateReportPage } from './Routes/CreateReportPage';
-     
+import { AsyncCrud } from './Routes/AsyncCrud';
+import { UserReportsPage } from './Routes/UserReportsPage';
+import { UserReportPage } from './Routes/UserReportPage';  
+import { WebcamCapturePage } from './Routes/WebcamCapturePage';
+import { ImageProvider } from './Context/Image/ImageContext';
 function App() {
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -32,13 +36,13 @@ function App() {
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
   return (
-
+<ImageProvider>
     <ReportProvider>
     <Router>
     <div className="flex flex-col justify-between h-screen">
     <Navbar />
 
-    <main className="container mx-auto px-3 pb-12">
+    <main className="container mx-auto px-3 pb-5">
     
 
       <Routes>
@@ -47,6 +51,11 @@ function App() {
         <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/createreport" element={<CreateReportPage />} />
+          <Route path="/userreports" element={<UserReportsPage />} />
+          <Route path="/userreport" element={<UserReportPage />} />
+          <Route path="/captureimage" element={<WebcamCapturePage />} />
+          <Route path="/asynccrudgeo" element={<AsyncCrud />} />
+     
            <Route path="/notfound" element={<NotFoundPage />} />
         <Route path="/*" element={<NotFoundPage />} />
 
@@ -62,6 +71,7 @@ function App() {
   </div>
 </Router>
 </ReportProvider>
+</ImageProvider>
   );
 }
 

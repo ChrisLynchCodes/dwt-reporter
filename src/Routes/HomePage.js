@@ -2,7 +2,9 @@ import { React, useContext, useEffect, useState } from 'react';
 import ReportContext from '../Context/Report/ReportContext';
 import { AddReport, CreateReportsCollection, GetReports } from '../Context/Report/ReportActions';
 import { Spinner } from '../Components/Layout/Spinner';
-
+import { GeoLocationDisplay } from '../Components/Location/GeoLocationDisplay';
+import { ReportItem } from '../Components/Report/ReportItem';
+import moment from 'moment'
 
 //TODO : add pages defined in notebook
 //TODO : Home page loads reports from local storage if there are any. If not it loads an empty array
@@ -13,23 +15,14 @@ import { Spinner } from '../Components/Layout/Spinner';
 
 export const HomePage = () => {
 
-  const { reports, report, loading, reportDispatch } = useContext(ReportContext);
-  const [position, setPosition] = useState({});
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     AddReport(report);
+  const { reports, loading, reportDispatch } = useContext(ReportContext);
 
-  //   }
-  // const handleTitleChange = (e)=> {
-  //     report.Title = e.target.value;
-  //     console.log(report.Title);
-  // }
 
 
 
   useEffect(() => {
 
-   
+
     const reports = GetReports();
 
     //if user has reports in local storage update component state.
@@ -44,6 +37,82 @@ export const HomePage = () => {
   }, [reportDispatch]);
 
 
+
+  if (!loading) {
+    return (
+      <div className='grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-8'>
+
+        <div></div>
+
+        <div>
+          <h1 className='text-3xl mb-3'>Homepage</h1>
+
+          {/* If there are reports display them else display a message. */}
+
+          <div class="overflow-x-auto">
+  <table class="table w-full table-compact">
+    {/* <!-- head --> */}
+    <thead>
+      <tr>
+  
+        <th>Title</th>
+        <th>Image</th>
+        <th>Category</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {/* <!-- body --> */}
+      <tr>
+    
+{/*         
+        {
+            reports.length > 0 ? reports.map((report) => (
+           
+              <>
+              <td>{report.title}</td>
+              <td>image</td>
+              <td>category</td>
+              <td>{moment(report.timestamp).format("MMMM Do YYYY")}{" "}</td>
+              </>
+          
+
+             ))
+              : <h1>No reports</h1>
+          } */}
+  
+      </tr>
+    
+     
+    </tbody>
+  </table>
+</div>
+
+        </div>
+
+
+        <div>
+        </div>
+
+      </div>
+
+    )
+  }
+  else {
+    return <Spinner />
+  }
+
+}
+
+
+    //       {/* <button id="get-access" onClick={() => { Camera() }} className="btn">Camera</button> */}
+    //       {/* <video autoPlay id='local-video'/> */}
+          
+
+    //       {/* <button className="btn btn-secondary">Secondary</button>
+    // <button className="btn btn-accent">Accent</button> */}
+
+    
 
   // const Camera = async () => {
   //   navigator.getUserMedia(
@@ -62,54 +131,12 @@ export const HomePage = () => {
   //     }
   //   );
   // }
+    //   const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     AddReport(report);
 
-  if (!loading) {
-    return (
-
-
-
-      <div className='grid grid-cols-3 gap-8 mb-8'>
-
-        <div></div>
-
-        <div>
-          <h1 className='text-3xl mb-3'>Homepage</h1>
-          {/* <button id="get-access" onClick={() => { Camera() }} className="btn">Camera</button> */}
-          {/* <video autoPlay id='local-video'/> */}
-         
-
-          {/* If there are reports display them else display a message. */}
-
-          {
-            reports.length > 0 ? reports.map((report) => (
-            <div key={report.id}>
-              <h1>Title: {report.title} </h1>
-              <h1>Description: {report.description}</h1>
-              <h1>Latitude: {report.latitude}</h1>
-              <h1>Longitude: {report.longitude} </h1>
-              <h1>Accuracy: {report.accuracy}</h1>
-         
-              </div>))
-              : <h1>No reports</h1>
-          }
-
-
-
-          {/* <button className="btn btn-secondary">Secondary</button>
-    <button className="btn btn-accent">Accent</button> */}
-
-        </div>
-        <div>
-        </div>
-
-      </div>
-
-    )
-  }
-  else {
-    return <Spinner />
-  }
-
-}
-
-
+  //   }
+  // const handleTitleChange = (e)=> {
+  //     report.Title = e.target.value;
+  //     console.log(report.Title);
+  // }
