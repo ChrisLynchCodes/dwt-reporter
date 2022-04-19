@@ -10,6 +10,7 @@ import { GetReport } from '../Context/Report/ReportActions';
 import { db } from '../Context/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import ImageContext from '../Context/Image/ImageContext';
+import { Share } from '../Components/Layout/Share';
 
 //TODO : add pages defined in notebook
 //TODO : Home page loads reports from local storage if there are any. If not it loads an empty array
@@ -60,11 +61,11 @@ export const HomePage = () => {
 
         <div>
           <h1 className='text-3xl mb-3'>Homepage</h1>
-
+<Share/>
           {/* If there are reports display them else display a message. */}
          <h1 className='text-2xl'>{report.title}</h1>
          <h1 className='text-1xl'>{report.description}</h1>
-         <p>{moment(report.timestamp).format("llll")} </p>
+       
          {
          images !== undefined && images.length > 0 ? images.map((image) => (
               image.id === report.imageId ? <img src={image.image} alt={report}></img> : null)) : null

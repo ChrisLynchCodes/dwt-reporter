@@ -5,7 +5,6 @@ import logo from '../../Images/dwtlogonav.png'
 
 
 
-
 export const Navbar = ({ title }) => {
 
 
@@ -34,12 +33,12 @@ export const Navbar = ({ title }) => {
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between">
           <div className="flex space-x-7">
-            <div>
+            <div className="mt-1">
               {/* <!-- Website Logo --> */}
               <Link to='/'>
                 {/* <GiCampingTent className='inline pr-2 text-6xl' /> */}
-                <img  className="mask mask-square w-24" src={logo} alt="report" />
-               
+                <img  className="mask mask-square w-20" src={logo} alt="report" />
+              
                
                 {/* {title} */}
 

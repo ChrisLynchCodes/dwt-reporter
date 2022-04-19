@@ -25,7 +25,7 @@ export const CreateReportPage = () => {
   //  const [position, setPosition] = useState({ "latitude": "", "longitude": "", "accuracy": "", "altitude": "", "altitudeAccuracy": "", "heading": "", "speed": "" });
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-
+  const [category, setCategory] = useState('');
 
 
   let navigate = useNavigate();
@@ -54,10 +54,10 @@ export const CreateReportPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (title === '' || description === '') {
-      
-      setAlert('Title and description are required', 'error')
-      
+    if (title === '' || description === '' || category === '') {
+
+      setAlert('The Title, Description, and Category are required', 'error')
+
     } else {
       const report = {
         "title": title,
@@ -71,10 +71,11 @@ export const CreateReportPage = () => {
         "heading": "",
         "speed": "",
         "imageId": "",
+        "category": category
       }
 
       //add report to local storage - before location call back function is called below
-  AddReport(report)
+      AddReport(report)
 
       //fets the current location and update the reports in the app state after successful location call back
       getCurrentLocation(function (reports) {
@@ -85,8 +86,8 @@ export const CreateReportPage = () => {
 
 
       if (image !== '') {
-        
-        addImage(image,  function (imageId) {
+
+        addImage(image, function (imageId) {
 
           //get last inserted report id
           const lastInsertId = LastInsertedReportId();
@@ -132,7 +133,26 @@ export const CreateReportPage = () => {
           </div>  <button className='btn btn-accent' onClick={() => { imageDispatch({ type: 'GET_IMAGE', payload: "" }); }} >Clear</button></div> : null}
           <form onSubmit={(e) => { handleSubmit(e); }}>
 
+            {/* Category dropdown */}
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Category</span>
+              </label>
+              <select class="select select-bordered select-primary w-full max-w-xs" onChange={(e) => (setCategory(e.target.value))}>
+<option disabled>Select a category</option>
+                <option>Mamal</option>
+                <option>Bird</option>
+                <option>Plant</option>
+                <option>Insect</option>
+                <option>Fish</option>
+                <option>Amphibian</option>
+                <option>Fungi</option>
+                <option>Reptile</option>
 
+
+
+              </select>
+            </div>
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">Title</span>
@@ -144,7 +164,7 @@ export const CreateReportPage = () => {
               <label class="label">
                 <span class="label-text">Description</span>
               </label>
-              <input onChange={(e) => { setDescription(e.target.value); }} type="text" placeholder="Description" className="input input-bordered input-primary w-full max-w-xs" />
+              <textarea onChange={(e) => { setDescription(e.target.value); }} type="text" placeholder="Description" className="textarea input-bordered input-primary w-full max-w-xs" />
             </div>
 
 

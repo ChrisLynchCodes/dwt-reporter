@@ -45,33 +45,41 @@ export const UserReportPage = () => {
   else {
 
     return (
-      <div>
-        <div className='height-24'>
-          <Map latitude={report.latitude} longitude={report.longitude} />
+      <div className='grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-8'>
+
+
+        <div >
+          <div className='text-center'>
+            {imagesFromDb.map(image => (
+              image.reportId === report.id ? <img class="mask mask-square" src={image.image} alt='report' />
+                : null
+            ))}
+
+            <h1 className='text-2xl mt-3 text-center text-bold'>{report.title}</h1>
+
+            <p className='overline'>{moment(report.timeStamp).format("llll")} </p>
+          </div>
+
+
+          <div className='mt-5'>
+            {report.category !== null ? <p className='font-bold'>Category: <span className='font-normal'>{report.category}</span></p> : null}
+            {report.description !== null ? <p className='font-bold'>Description: <span className='font-normal'>{report.description}</span></p> : null}
+            {report.latitude !== null ? <p className='font-bold'>Latitude: <span className='font-normal'> {report.latitude} °</span></p> : null}
+            {report.longitude !== null ? <p className='font-bold'>Longitude: <span className='font-normal'> {report.longitude} °</span></p> : null}
+            {report.accuracy !== null ? <p className='font-bold'>Accuracy:  <span className='font-normal'>{report.accuracy}</span></p> : null}
+            {report.altitude !== null ? <p className='font-bold'>Altitude:  <span className='font-normal'>{report.altitude}</span></p> : null}
+            {report.altitudeAccuracy !== null ? <p className='font-bold'>Altitude Accuracy:  <span className='font-normal'>{report.altitudeAccuracy}</span></p> : null}
+            {report.heading !== null ? <p className='font-bold'>Heading:  <span className='font-normal'>{report.heading}</span></p> : null}
+            {report.speed !== null ? <p className='font-bold'>Speed:  <span className='font-normal'>{report.speed}</span></p> : null}
+          </div>
+
+
+
+
         </div>
-
-
-        {imagesFromDb.map(image => (
-          image.reportId === report.id ? <img class="mask mask-square" src={image.image} alt='report' />
-            : null
-        ))}
-
-        <h1 className='text-2xl mt-3 text-center text-bold'>{report.title}</h1>
-        <div>{report.description}</div>
-        <p>{moment(report.timeStamp).format("llll")} </p>
-
-
-        {/* TODO Terinery check if null return null */}
-
-
-        {report.latitude !== null ? <p>Latitude: {report.latitude}</p> : null}
-        {report.longitude !== null ? <p>Longitude: {report.longitude}</p> : null}
-        {report.accuracy !== null ? <p>Accuracy: {report.accuracy}</p> : null}
-        {report.altitude !== null ? <p>Altitude: {report.altitude}</p> : null}
-        {report.altitudeAccuracy !== null ? <p>Altitude Accuracy: {report.altitudeAccuracy}</p> : null}
-        {report.heading !== null ? <p>Heading: {report.heading}</p> : null}
-        {report.speed !== null ? <p>Speed: {report.speed}</p> : null}
-
+        <div >
+          <Map latitude={report.latitude} longitude={report.longitude} reportTitle={report.title} />
+        </div>
 
         <div className='mt-3'>
           <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>

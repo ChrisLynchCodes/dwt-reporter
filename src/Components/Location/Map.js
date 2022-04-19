@@ -4,9 +4,10 @@ import { TileLayer } from 'react-leaflet/TileLayer'
 import { useMap } from 'react-leaflet/hooks'
 import { Marker } from 'react-leaflet/Marker'
 import { Popup } from 'react-leaflet/Popup'
+import { Icon } from "leaflet";
 
 
-export const Map = ({latitude, longitude}) => {
+export const Map = ({latitude, longitude, reportTitle}) => {
     return (
         
             <div>
@@ -16,9 +17,9 @@ export const Map = ({latitude, longitude}) => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <Marker position={[latitude, longitude]}>
-                    {/* <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup> */}
+                    <Popup>
+                        Report: {reportTitle}
+                    </Popup>
                 </Marker>
             </MapContainer>
             </div>

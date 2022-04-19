@@ -70,14 +70,10 @@ export const AllReports = () => {
                             <div class="card-body">
                                 <h2 class="card-title">{report.title}</h2>
                                 <p>{moment(report.timestamp).format("llll")} </p>
-                                <p>ID {report.id
-                                }</p>
                                 <p className='font-bold underline'>Description</p>
-                                <p> {report.description}</p>
-                                <p>Lon {report.longitude}</p>
-                                <p>Lat {report.latitude}</p>
-                                <p>Acu {report.accuracy}</p>
-                          
+                                <p>{report.description}</p>
+                                <p>Category: {report.category}</p>
+
                                 <div class="card-actions">
 
                                 </div>
