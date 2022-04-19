@@ -17,6 +17,7 @@ import { WebcamCapturePage } from './Routes/WebcamCapturePage';
 import { ImageProvider } from './Context/Image/ImageContext';
 import { AlertProvider } from './Context/Alert/AlertContext';
 import {Alert} from './Components/Layout/Alert';
+import { EditReportPage } from './Routes/EditReportPage';
 function App() {
 
   // TODO: Add SDKs for Firebase products that you want to use
@@ -57,7 +58,8 @@ function App() {
                   <Route path="/userreports" element={<UserReportsPage />} />
                   <Route path="/userreport" element={<UserReportPage />} />
                   <Route path="/captureimage" element={<WebcamCapturePage />} />
-                  <Route path="/asynccrudgeo" element={<AsyncCrud />} />
+                  <Route path="/editreport" element={<EditReportPage />} />
+                  {/* <Route path="/asynccrudgeo" element={<AsyncCrud />} /> */}
 
                   <Route path="/notfound" element={<NotFoundPage />} />
                   <Route path="/*" element={<NotFoundPage />} />

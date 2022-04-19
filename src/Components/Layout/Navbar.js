@@ -71,13 +71,13 @@ export const Navbar = ({ title }) => {
                Create Report
               </Link>
              
-              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+              <Link to='/userreports' className='btn btn-ghost btn-sm rounded-btn'>
                 My Reports
               </Link>
-              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+              <Link to='/about' className='btn btn-ghost btn-sm rounded-btn'>
                 About
               </Link>
-              <Link to='/popular' className='btn btn-ghost btn-sm rounded-btn'>
+              <Link to='/faq' className='btn btn-ghost btn-sm rounded-btn'>
                 FAQ
               </Link>
           </div>

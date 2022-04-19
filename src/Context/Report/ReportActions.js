@@ -161,3 +161,25 @@ export const RemoveReport = (reportId) => {
         }
     
 }
+
+
+export const EditReport = (reportId, editedReport) => {
+    try {
+        //Get reports from local storage
+        const reports = GetReports();
+
+        
+
+        //find report with id
+        const reportIndex = reports.findIndex(report => report.id === reportId);
+        reports[reportIndex] = Object.assign({}, reports[reportIndex], editedReport);
+
+        //set reports in local storage
+        localStorage.setItem('reports', JSON.stringify(reports));
+
+    } catch (e) {
+        console.log("ERROR" + e);
+    }
+
+
+}

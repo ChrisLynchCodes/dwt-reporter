@@ -139,8 +139,8 @@ export const CreateReportPage = () => {
                 <span className="label-text">Category</span>
               </label>
               <select class="select select-bordered select-primary w-full max-w-xs" onChange={(e) => (setCategory(e.target.value))}>
-<option disabled>Select a category</option>
-                <option>Mamal</option>
+                <option value="">Select a category</option>
+                <option>Mammal</option>
                 <option>Bird</option>
                 <option>Plant</option>
                 <option>Insect</option>
@@ -153,6 +153,8 @@ export const CreateReportPage = () => {
 
               </select>
             </div>
+
+           
             <div class="form-control w-full max-w-xs">
               <label class="label">
                 <span class="label-text">Title</span>

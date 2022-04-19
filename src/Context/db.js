@@ -9,6 +9,19 @@ db.version(1).stores({
  
 });
 
+
+export async function removeImage(imageId) {
+  
+    
+  try {
+     await db.images.delete(imageId); 
+           
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 export async function addImage(imageSrc, callback) {
   
     

@@ -1,8 +1,8 @@
 import { React, useEffect, useContext } from 'react'
-import { useLocation } from 'react-router-dom'
-import { GetReport } from '../Context/Report/ReportActions';
+import { useNavigate, useLocation } from 'react-router-dom'
+import { GetReport, RemoveReport } from '../Context/Report/ReportActions';
 import ReportContext from '../Context/Report/ReportContext';
-import { db } from '../Context/db';
+import { db, removeImage } from '../Context/db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import ImageContext from '../Context/Image/ImageContext';
 import moment from 'moment'
@@ -17,7 +17,7 @@ export const UserReportPage = () => {
   const { image, imageDispatch } = useContext(ImageContext);
   const location = useLocation();
   const { from } = location.state;
-
+  let navigate = useNavigate();
   const imagesFromDb = useLiveQuery(
     () => db.images.toArray()
   );
@@ -33,12 +33,35 @@ export const UserReportPage = () => {
     const report = GetReport(from);
     reportDispatch({ type: 'GET_REPORT', payload: report });
 
+    //get images from local storage by reports image id
+    const getImage = async () => {
+
+      const image = await db.images.get(report.imageId);
+
+      if (image !== undefined) {
+        //update component state with image
+        imageDispatch({ type: 'GET_IMAGE', payload: image });
+
+      } else {
+        //update component state with empty image to stop spinner - loading = false
+        imageDispatch({ type: 'GET_IMAGE', payload: "" });
+      }
+
+
+    }
+    //call getImage
+    getImage()
+
 
   }, [reportDispatch, from, imageDispatch]);
 
 
   const handleDelete = () => {
     //TODO Delete the report from the local storage and the associated image in the database - Redirect to my reports page
+    removeImage(report.imageId);
+    RemoveReport(report.id);
+
+    navigate("/userreports", { replace: true })
   }
 
   if (!imagesFromDb) return null; // Still loading.
@@ -50,14 +73,11 @@ export const UserReportPage = () => {
 
         <div >
           <div className='text-center'>
-            {imagesFromDb.map(image => (
-              image.reportId === report.id ? <img class="mask mask-square" src={image.image} alt='report' />
-                : null
-            ))}
+          <img class="mask mask-square" src={image.image} alt='report' />
 
             <h1 className='text-2xl mt-3 text-center text-bold'>{report.title}</h1>
 
-            <p className='overline'>{moment(report.timeStamp).format("llll")} </p>
+            <p className='overline'>{moment(report.timestamp).format("llll")} </p>
           </div>
 
 
@@ -82,7 +102,7 @@ export const UserReportPage = () => {
         </div>
 
         <div className='mt-3'>
-          <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
+          <Link to='/editreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
             Edit
           </Link>
 
@@ -95,7 +115,7 @@ export const UserReportPage = () => {
               <h3 class="font-bold text-lg">Are you sure? This will be permenant</h3>
 
               <div class="modal-action">
-                <button for="my-modal" onClick={handleDelete()} class="btn">Confrim</button>
+                <button for="my-modal" onClick={()=>(handleDelete())} class="btn">Confrim</button>
                 <label for="my-modal" class="btn">Go Back</label>
               </div>
             </div>
