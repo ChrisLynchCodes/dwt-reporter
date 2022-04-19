@@ -69,9 +69,7 @@ export const HomePage = () => {
          images !== undefined && images.length > 0 ? images.map((image) => (
               image.id === report.imageId ? <img src={image.image} alt={report}></img> : null)) : null
 }
-
-
-       
+  
                                     
 
          

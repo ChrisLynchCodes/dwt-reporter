@@ -25,7 +25,7 @@ export const reportReducer = (state, action) => {
                 ...state,
                 loading: true
             }
-        case 'CLEAR_':
+        case 'CLEAR_REPORTS':
             return {
                 ...state,
                 reports: [],

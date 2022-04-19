@@ -16,6 +16,7 @@ export const AddReport = async (report) => {
         //set reports in local storage
         localStorage.setItem('reports', JSON.stringify([...reports, report]));
 
+
     } catch (e) {
         console.log("ERROR" + e);
     }
@@ -136,4 +137,27 @@ export const EditReportImageId = async (id, imageId, error) => {
         console.log("ERROR" + e);
     }
 
+}
+
+
+export const RemoveReport = (reportId) => {
+    
+        try {
+    
+            //Get reports from local storage
+            const reports = GetReports();
+    
+            //find report with id
+            const reportIndex = reports.findIndex(report => report.id === reportId);
+    
+            //remove report from array
+            reports.splice(reportIndex, 1);
+    
+            //set reports in local storage
+            localStorage.setItem('reports', JSON.stringify(reports));
+    
+        } catch (e) {
+            console.log("ERROR" + e);
+        }
+    
 }

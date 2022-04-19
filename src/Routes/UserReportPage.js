@@ -7,7 +7,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import ImageContext from '../Context/Image/ImageContext';
 import moment from 'moment'
 import { Link } from 'react-router-dom';
-
+import { Map } from '../Components/Location/Map';
 
 //TODO Display a report in detail and allow the user to edit it and delete it
 
@@ -27,7 +27,7 @@ export const UserReportPage = () => {
 
   useEffect(() => {
 
-
+    reportDispatch({ type: 'CLEAR_REPORTS' });
 
     reportDispatch({ type: 'SET_LOADING' });
     const report = GetReport(from);
@@ -38,7 +38,7 @@ export const UserReportPage = () => {
 
 
   const handleDelete = () => {
-//TODO Delete the report from the local storage and the associated image in the database - Redirect to my reports page
+    //TODO Delete the report from the local storage and the associated image in the database - Redirect to my reports page
   }
 
   if (!imagesFromDb) return null; // Still loading.
@@ -46,45 +46,55 @@ export const UserReportPage = () => {
 
     return (
       <div>
+        <div className='height-24'>
+          <Map latitude={report.latitude} longitude={report.longitude} />
+        </div>
 
-        <img class="mask mask-square" src={imagesFromDb[0].image} alt='report' />
+
+        {imagesFromDb.map(image => (
+          image.reportId === report.id ? <img class="mask mask-square" src={image.image} alt='report' />
+            : null
+        ))}
+
         <h1 className='text-2xl mt-3 text-center text-bold'>{report.title}</h1>
         <div>{report.description}</div>
         <p>{moment(report.timeStamp).format("llll")} </p>
 
 
         {/* TODO Terinery check if null return null */}
-        <p>longitude {report.longitude}</p>
-        <p>latitude {report.latitude}</p>
-        <p>accuracy {report.accuracy}</p>
-        <p>accuracy {report.altitude}</p>
-        <p>altitude {report.altitudeAccuracy}</p>
-        <p>heading {report.heading}</p>
-        <p>speed {report.speed}</p>
-        <p>locationTimestap {report.locationTimestap}</p>
-
-<div className='mt-3'>
-<Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
-          Edit
-        </Link>
-
-        <label for="my-modal" class="btn modal-button">Delete Report</label>
 
 
-        <input type="checkbox" id="my-modal" class="modal-toggle" />
-        <div class="modal">
-          <div class="modal-box">
-            <h3 class="font-bold text-lg">Are you sure? This will be permenant</h3>
+        {report.latitude !== null ? <p>Latitude: {report.latitude}</p> : null}
+        {report.longitude !== null ? <p>Longitude: {report.longitude}</p> : null}
+        {report.accuracy !== null ? <p>Accuracy: {report.accuracy}</p> : null}
+        {report.altitude !== null ? <p>Altitude: {report.altitude}</p> : null}
+        {report.altitudeAccuracy !== null ? <p>Altitude Accuracy: {report.altitudeAccuracy}</p> : null}
+        {report.heading !== null ? <p>Heading: {report.heading}</p> : null}
+        {report.speed !== null ? <p>Speed: {report.speed}</p> : null}
 
-            <div class="modal-action">
-              <button for="my-modal" onClick={handleDelete()} class="btn">Confrim</button>
-              <label for="my-modal" class="btn">Go Back</label>
+
+        <div className='mt-3'>
+          <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
+            Edit
+          </Link>
+
+          <label for="my-modal" class="btn modal-button">Delete Report</label>
+
+
+          <input type="checkbox" id="my-modal" class="modal-toggle" />
+          <div class="modal">
+            <div class="modal-box">
+              <h3 class="font-bold text-lg">Are you sure? This will be permenant</h3>
+
+              <div class="modal-action">
+                <button for="my-modal" onClick={handleDelete()} class="btn">Confrim</button>
+                <label for="my-modal" class="btn">Go Back</label>
+              </div>
             </div>
           </div>
         </div>
-</div>
-     
-      
+
+
       </div>
 
 

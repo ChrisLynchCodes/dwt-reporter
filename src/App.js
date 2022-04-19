@@ -46,7 +46,7 @@ function App() {
               <Navbar />
 
               <main className="container mx-auto px-3 pb-5">
-            
+              <Alert/>
 
                 <Routes>
 
@@ -66,9 +66,8 @@ function App() {
 
 
 
-                 
+
                 </Routes>
-                <Alert/>
               </main>
               <Footer />
 

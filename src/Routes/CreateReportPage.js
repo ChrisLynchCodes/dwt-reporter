@@ -74,7 +74,7 @@ export const CreateReportPage = () => {
       }
 
       //add report to local storage - before location call back function is called below
-      AddReport(report)
+  AddReport(report)
 
       //fets the current location and update the reports in the app state after successful location call back
       getCurrentLocation(function (reports) {
@@ -85,7 +85,8 @@ export const CreateReportPage = () => {
 
 
       if (image !== '') {
-        addImage(image, function (imageId) {
+        
+        addImage(image,  function (imageId) {
 
           //get last inserted report id
           const lastInsertId = LastInsertedReportId();
