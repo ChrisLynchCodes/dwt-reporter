@@ -86,7 +86,7 @@ export const EditReportLocation = async (id, latitude, longitude, accuracy, alti
 
 
         const reportWithLocation = {
-            id: id,
+
             latitude: latitude,
             longitude: longitude,
             accuracy: accuracy,
@@ -118,16 +118,19 @@ export const EditReportImageId = async (id, imageId, error) => {
     try {
         //Get reports from local storage
         const reports = GetReports();
-        //find report with id
-        const report = reports.find(report => report.id === id);
 
-        //update report image id
-        report.imageId = imageId;
-        report.error = error;
+        const reportWithImage = {
+            imageId: imageId,
+            error: error
+
+        }
+
+        //find report with id
+        const reportIndex = reports.findIndex(report => report.id === id);
+        reports[reportIndex] = Object.assign({}, reports[reportIndex], reportWithImage);
+
         //set reports in local storage
         localStorage.setItem('reports', JSON.stringify(reports));
-
-
 
     } catch (e) {
         console.log("ERROR" + e);

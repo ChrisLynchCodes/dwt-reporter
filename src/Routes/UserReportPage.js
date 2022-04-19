@@ -36,6 +36,11 @@ export const UserReportPage = () => {
 
   }, [reportDispatch, from, imageDispatch]);
 
+
+  const handleDelete = () => {
+//TODO Delete the report from the local storage and the associated image in the database - Redirect to my reports page
+  }
+
   if (!imagesFromDb) return null; // Still loading.
   else {
 
@@ -58,13 +63,28 @@ export const UserReportPage = () => {
         <p>speed {report.speed}</p>
         <p>locationTimestap {report.locationTimestap}</p>
 
-
-        <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
+<div className='mt-3'>
+<Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
           Edit
         </Link>
-        <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
-Delete
-</Link>
+
+        <label for="my-modal" class="btn modal-button">Delete Report</label>
+
+
+        <input type="checkbox" id="my-modal" class="modal-toggle" />
+        <div class="modal">
+          <div class="modal-box">
+            <h3 class="font-bold text-lg">Are you sure? This will be permenant</h3>
+
+            <div class="modal-action">
+              <button for="my-modal" onClick={handleDelete()} class="btn">Confrim</button>
+              <label for="my-modal" class="btn">Go Back</label>
+            </div>
+          </div>
+        </div>
+</div>
+     
+      
       </div>
 
 

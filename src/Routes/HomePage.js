@@ -5,6 +5,11 @@ import { Spinner } from '../Components/Layout/Spinner';
 import { GeoLocationDisplay } from '../Components/Location/GeoLocationDisplay';
 import { ReportItem } from '../Components/Report/ReportItem';
 import moment from 'moment'
+import {LastInsertedReportId} from '../Context/Report/ReportActions';
+import { GetReport } from '../Context/Report/ReportActions';
+import { db } from '../Context/db';
+import { useLiveQuery } from 'dexie-react-hooks';
+import ImageContext from '../Context/Image/ImageContext';
 
 //TODO : add pages defined in notebook
 //TODO : Home page loads reports from local storage if there are any. If not it loads an empty array
@@ -14,8 +19,14 @@ import moment from 'moment'
 
 
 export const HomePage = () => {
+  const imagesFromDb = useLiveQuery(
+    () => db.images.toArray()
+  );
 
-  const { reports, loading, reportDispatch } = useContext(ReportContext);
+  
+  const { report, loading, reportDispatch } = useContext(ReportContext);
+  const { images, imageDispatch } = useContext(ImageContext);
+
 
 
 
@@ -24,17 +35,20 @@ export const HomePage = () => {
 
 
     const reports = GetReports();
-
+    imageDispatch({ type: 'GET_IMAGES', payload: imagesFromDb });
+   
     //if user has reports in local storage update component state.
     if (reports !== null && reports.length > 0) {
       reportDispatch({ type: 'SET_LOADING' });
-      reportDispatch({ type: 'GET_REPORTS', payload: reports });
+      const lastReportId = LastInsertedReportId();
+      const report = GetReport(lastReportId);
+      reportDispatch({ type: 'GET_REPORT', payload: report });
     } else {
       //set empty array in local storage
       CreateReportsCollection();
     }
 
-  }, [reportDispatch]);
+  }, [reportDispatch, imageDispatch, imagesFromDb]);
 
 
 
@@ -48,45 +62,19 @@ export const HomePage = () => {
           <h1 className='text-3xl mb-3'>Homepage</h1>
 
           {/* If there are reports display them else display a message. */}
+         <h1 className='text-2xl'>{report.title}</h1>
+         <h1 className='text-1xl'>{report.description}</h1>
+         <p>{moment(report.timestamp).format("llll")} </p>
+         {
+         images !== undefined && images.length > 0 ? images.map((image) => (
+              image.id === report.imageId ? <img src={image.image} alt={report}></img> : null)) : null
+}
 
-          <div class="overflow-x-auto">
-  <table class="table w-full table-compact">
-    {/* <!-- head --> */}
-    <thead>
-      <tr>
-  
-        <th>Title</th>
-        <th>Image</th>
-        <th>Category</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {/* <!-- body --> */}
-      <tr>
-    
-{/*         
-        {
-            reports.length > 0 ? reports.map((report) => (
-           
-              <>
-              <td>{report.title}</td>
-              <td>image</td>
-              <td>category</td>
-              <td>{moment(report.timestamp).format("MMMM Do YYYY")}{" "}</td>
-              </>
-          
 
-             ))
-              : <h1>No reports</h1>
-          } */}
-  
-      </tr>
-    
-     
-    </tbody>
-  </table>
-</div>
+       
+                                    
+
+         
 
         </div>
 

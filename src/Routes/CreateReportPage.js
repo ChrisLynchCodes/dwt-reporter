@@ -11,13 +11,22 @@ import { WebcamCapturePage } from './WebcamCapturePage';
 import { addImage } from '../Context/db';
 import ImageContext from '../Context/Image/ImageContext';
 import { LastInsertedReportId, EditReportImageId } from '../Context/Report/ReportActions';
+import AlertContext from '../Context/Alert/AlertContext';
+
+
+
 
 export const CreateReportPage = () => {
   const { report, reportDispatch } = useContext(ReportContext);
   const { image, imageDispatch } = useContext(ImageContext);
+  const { setAlert } = useContext(AlertContext);
+
+
   //  const [position, setPosition] = useState({ "latitude": "", "longitude": "", "accuracy": "", "altitude": "", "altitudeAccuracy": "", "heading": "", "speed": "" });
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+
 
   let navigate = useNavigate();
 
@@ -45,47 +54,57 @@ export const CreateReportPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //TODO ensure title and description are not empty
-    const report = {
-      "title": title,
-      "description": description,
-      "timestamp": moment().format(),
-      "latitude": "",
-      "longitude": "",
-      "accuracy": "",
-      "altitude": "",
-      "altitudeAccuracy": "",
-      "heading": "",
-      "speed": "",
-      "imageId": "",
+    if (title === '' || description === '') {
+      
+      setAlert('Title and description are required', 'error')
+      
+    } else {
+      const report = {
+        "title": title,
+        "description": description,
+        "timestamp": moment().format(),
+        "latitude": "",
+        "longitude": "",
+        "accuracy": "",
+        "altitude": "",
+        "altitudeAccuracy": "",
+        "heading": "",
+        "speed": "",
+        "imageId": "",
+      }
+
+      //add report to local storage - before location call back function is called below
+      AddReport(report)
+
+      //fets the current location and update the reports in the app state after successful location call back
+      getCurrentLocation(function (reports) {
+
+        reportDispatch({ type: 'GET_REPORTS', payload: reports });
+      });
+
+
+
+      if (image !== '') {
+        addImage(image, function (imageId) {
+
+          //get last inserted report id
+          const lastInsertId = LastInsertedReportId();
+          // edit report imageId
+          EditReportImageId(lastInsertId, imageId);
+
+
+        });
+      }
+
+
+
+      //navigate to report page
+
+      navigate("/", { replace: true })
+
+
     }
 
-    //add report to local storage - before location call back function is called below
-    AddReport(report)
-
-    //fets the current location and update the reports in the app state after successful location call back
-    getCurrentLocation(function (reports) {
-      
-      reportDispatch({ type: 'GET_REPORTS', payload: reports });
-    });
-    //navigate to report page
-
-    navigate("/userreports", { replace: true })
-
-    // if (image !== '') {
-    //   addImage(image, function (imageId) {
-
-    //     //get last inserted report id
-    //     const lastInsertId = LastInsertedReportId();
-
-    //     console.log(lastInsertId)
-
-    //     // edit report imageId
-    //     EditReportImageId(lastInsertId, imageId);
-
-
-    //   });
-    // }
 
 
 
@@ -103,11 +122,13 @@ export const CreateReportPage = () => {
         <div>
 
           <h1 className='text-3xl mb-3'>Create Report</h1>
-          {image !== "" ? <div class="avatar">
+          {image !== "" ? <div><div class="avatar">
             <div class="w-24 rounded">
               <img src={image} alt='report' />
+
             </div>
-          </div> : null}
+
+          </div>  <button className='btn btn-accent' onClick={() => { imageDispatch({ type: 'GET_IMAGE', payload: "" }); }} >Clear</button></div> : null}
           <form onSubmit={(e) => { handleSubmit(e); }}>
 
 
