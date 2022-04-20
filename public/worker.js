@@ -2,7 +2,9 @@
 //name of your app
 const CACHE_NAME = 'dwt-reporter';
 //include all routes used in app
-const urlsToCache = ['/', '/reports'];
+const urlsToCache = ['/', '/reports', 'about', 'createreport', 'userreports', 'userreport', 'captureimage', 'editreport', 'notfound'];
+
+
 
 // Install a service worker
 self.addEventListener('install', (event) => {
