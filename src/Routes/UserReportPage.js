@@ -57,10 +57,9 @@ export const UserReportPage = () => {
 
 
   const handleDelete = () => {
-    //TODO Delete the report from the local storage and the associated image in the database - Redirect to my reports page
+
     removeImage(report.imageId);
     RemoveReport(report.id);
-
     navigate("/userreports", { replace: true })
   }
 
@@ -72,6 +71,9 @@ export const UserReportPage = () => {
 
 
         <div >
+        <Link to='/userreports' className='btn btn-accent'  state={{ from: report.id }}>
+           Back
+                                    </Link>
           <div className='text-center'>
           <img class="mask mask-square" src={image.image} alt='report' />
 

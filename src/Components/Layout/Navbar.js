@@ -77,9 +77,7 @@ export const Navbar = ({ title }) => {
               <Link to='/about' className='btn btn-ghost btn-sm rounded-btn'>
                 About
               </Link>
-              <Link to='/faq' className='btn btn-ghost btn-sm rounded-btn'>
-                FAQ
-              </Link>
+             
           </div>
 
 
@@ -128,12 +126,7 @@ export const Navbar = ({ title }) => {
             </Link>
 
           </li>
-          <li className="active">
-            <Link onClick={(() => { handleLinkClick() })} to='/logout' className='btn btn-ghost btn-sm rounded-btn'>
-              FAQ
-            </Link>
-
-          </li>
+   
 
         </ul>
       </div>

@@ -70,10 +70,17 @@ console.log(report)
 
         <div>
 
+<div className='b-20'>
+
+</div>
+        
+
+
+
           <h1 className='text-3xl'>Welcome to DWT Reporter</h1>
           <p className='text-lg'>Report on nature and wildlife that you encounter.</p>
           
-        <div className="mt-5 mb-5 mockup-phone border-primary">
+        <div className="mt-5 mb-5 mockup-phone p-0 border-primary">
   <div className="camera"></div> 
   <div className="display">
     <div className="artboard artboard-demo phone-1">
@@ -84,7 +91,7 @@ console.log(report)
             <h1 className='text-1xl'>{report.description}</h1>
             </div>
           
-            <Link to='/userreport' className="btn btn-primary mr-3" state={{ from: report.id }}>
+            <Link to='/userreport'  state={{ from: report.id }}>
             {images !== undefined && images.length > 0 ? images.map((image) => (
               image.id === report.imageId ? <div class="avatar">
                 <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
