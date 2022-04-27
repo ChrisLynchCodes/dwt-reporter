@@ -43,6 +43,10 @@ export const EditReportPage = () => {
     const report = GetReport(from);
     //update component state with report
     reportDispatch({ type: 'GET_REPORT', payload: report });
+    setTitle(report.title);
+    setDescription(report.description);
+    setCategory(report.category);
+    
 
     //get images from local storage by reports image id
     const getImage = async () => {

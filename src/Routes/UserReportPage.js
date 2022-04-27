@@ -60,6 +60,8 @@ export const UserReportPage = () => {
 
     removeImage(report.imageId);
     RemoveReport(report.id);
+    //update state
+    reportDispatch({ type: 'CLEAR_REPORTS' });
     navigate("/userreports", { replace: true })
   }
 

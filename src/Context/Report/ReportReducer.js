@@ -29,6 +29,7 @@ export const reportReducer = (state, action) => {
             return {
                 ...state,
                 reports: [],
+                report: {},
                 loading: false
             }
 

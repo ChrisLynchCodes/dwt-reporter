@@ -54,7 +54,9 @@ export const AllReports = () => {
 
     if (!loading) {
         return (
-
+            <div className='grid sm:grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-center'>
+           <div></div>
+           
             <div>
 
 
@@ -102,6 +104,8 @@ export const AllReports = () => {
 
 
 
+            </div>
+            <div></div>
             </div>
         )
 

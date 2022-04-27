@@ -119,6 +119,7 @@ export const EditReportImageId = async (id, imageId, error) => {
     try {
         //Get reports from local storage
         const reports = GetReports();
+            
 
         const reportWithImage = {
             imageId: imageId,
